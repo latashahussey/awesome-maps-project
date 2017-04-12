@@ -12,7 +12,7 @@ function initMap() {
             lat: 30.3071816, //Austin, TX
             lng: -97.7559964
         }, // location of the map to be centered
-        zoom: 12
+        zoom: 13
     });
 
     // Add several locations to our map in an array
@@ -24,7 +24,11 @@ function initMap() {
         {title: 'South Lamar', location: {lat: 30.236265, lng: -97.782422}}
     ];
 
+    // To hold data in info window for marker
     var largeInfoWindow = new google.maps.InfoWindow();
+
+    // In case our markers move outside boundaries of original maps location
+    var bounds = new google.maps.LatLngBounds();
 
     // Loop through all of the locations
     for (var i = 0; i < locations.length; i++){
@@ -41,11 +45,15 @@ function initMap() {
         });
         // Push the markers to the array of markers
         markers.push(marker);
+        // Extend the boundaries of the map each marker
+        bounds.extend(marker.position);
         // Create an onclick even to open an infowindow at each marker.
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfoWindow);
         });
     }
+    // Fit map to bounds
+    map.fitBounds(bounds);
 
     // This function populuates the infowindow when a marker is clicked
     // Only one infowindow will open at a time.
