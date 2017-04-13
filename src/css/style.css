@@ -1,10 +1,92 @@
+/* Styles for Awesome Map Project
+
+
+
+**** Fonts ***
+
+Ubuntu: Main header font, buttons
+BlackJack:  Used for brand
+
+
+**** Color Palette ***
+#3a3042: Dark Purple | Used for brand
+#846193: Light Purple | Used as accent color for links
+
+
+**** Table of Contents ****
+- Fonts
+- Base Styles
+- Main
+- Footer
+- Utilities
+
+
+*/
+
+
+/*-------FONTS---------*/
+
+@font-face {
+    font-family: "Black Jack";
+    src: url("../font/BlackJack.eot");
+    src: url("../font/BlackJack.eot?#iefix") format("embedded-opentype"), url("../font/BlackJack.woff2") format("woff2"), url("../font/BlackJack.woff") format("woff"), url("../font/BlackJack.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*-------BASE STYLES---------*/
+
 html,
 body {
-    font-family: Arial, sans-serif;
     height: 100%;
     margin: 0;
     padding: 0;
 }
+
+.container {
+    text-align: center;
+}
+
+a {
+    color: #3a3042;
+    text-decoration: none;
+}
+
+a:hover, .fa:hover {
+    color: #846193;
+    text-decoration: none;
+}
+
+/*-------MAIN---------*/
+
+main {
+    margin: 2rem auto;
+    width: 70%;
+}
+
+
+/*-------FOOTER---------*/
+
+footer {
+    text-align: center;
+}
+
+footer .fa {
+        color: #3a3042;
+        padding: .25em;
+    }
+
+footer .fa-heart {
+    padding: 0;
+}
+
+.lh-brand {
+        color: #3a3042;
+        font-family: "Black Jack", cursive;
+        text-transform: lowercase;
+    }
+
+/*-------UTILITIES---------*/
 
 .full-height {
     height: 100%;
