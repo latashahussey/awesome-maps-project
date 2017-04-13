@@ -5,6 +5,75 @@ var map;
 // Create array for all markers
 var markers = [];
 
+// Create a styles array to use with the map
+var styles = [
+    {
+        featureType: 'water',
+        stylers: [
+            {color: '#19a0d8'}
+        ]
+    },
+    {
+        featureType: 'administrative',
+        elementType: 'labels.text.stroke',
+        stylers: [
+            {color: '#ffffff'},
+            {weight: 6}
+        ]
+    }, {
+        featureType: 'administrative',
+        elementType: 'labels.text.fill',
+        stylers: [
+            {color: '#e85113'}
+        ]
+    }, {
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [
+            {color: '#efe9e4'},
+            {lightness: -40}
+        ]
+    },{
+        featureType: 'transit.station',
+        stylers: [
+          { weight: 9 },
+          { hue: '#e85113' }
+        ]
+      },{
+        featureType: 'road.highway',
+        elementType: 'labels.icon',
+        stylers: [
+          { visibility: 'off' }
+        ]
+      },{
+        featureType: 'water',
+        elementType: 'labels.text.stroke',
+        stylers: [
+          { lightness: 100 }
+        ]
+      },{
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [
+          { lightness: -100 }
+        ]
+      },{
+        featureType: 'poi',
+        elementType: 'geometry',
+        stylers: [
+          { visibility: 'on' },
+          { color: '#f0e4d3' }
+        ]
+      },{
+        featureType: 'road.highway',
+        elementType: 'geometry.fill',
+        stylers: [
+          { color: '#efe9e4' },
+          { lightness: -25 }
+        ]
+      }
+];
+
 function initMap() {
     // Constructor creates a new map - only center and zoon are required.
     map = new google.maps.Map(document.getElementById('map'), { // which element to use to display map
@@ -12,7 +81,9 @@ function initMap() {
             lat: 30.3071816, //Austin, TX
             lng: -97.7559964
         }, // location of the map to be centered
-        zoom: 13
+        zoom: 13,
+        styles: style,
+        mapTypeControl: false
     });
 
     // Add several locations to our map in an array
@@ -28,6 +99,12 @@ function initMap() {
 
     // To hold data in info window for marker
     var largeInfoWindow = new google.maps.InfoWindow();
+
+    // Style the markers a bit. This will be our listing marker icon.
+    var defaultIcon = makeMarkerIcon('0091ff');
+   // Create a "highlighted location" marker color for when the user
+   // mouses over the marker.
+    var highlightedIcon = makeMarkerIcon('FFFF24');
 
     for (var i = 0; i < locations.length; i++){
         // Get the position and title of the location array
@@ -62,7 +139,7 @@ function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened at this marker.
     if(infowindow.marker != marker) {
         infowindow.marker = marker;
-        infowindow.setContent('<div>' + marker.title + '</div>');
+        infowindow.setContent('<div>' + marker.title + '<br>' + marker.position + '</div>');
         infowindow.open(map, marker);
         //Make sure the marker property is closed if the infowindow is closed.
         infowindow.addListener('closeclick', function(){
