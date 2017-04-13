@@ -2,63 +2,61 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Awesome Maps Project</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Awesome Maps Project</title>
 
-    <!-- Styelsheets -->
-    <link rel="stylesheet" href="src/css/style.css">
-    <link rel="stylesheet" href="src/css/normalize.css">
-    <link rel="stylesheet" href="src/css/skeleton.css">
+  <!-- Minified Styelsheet -->
+  <link rel="stylesheet" href="dist/css/style.min.css">
 
-    <!--Google Fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <!--Google Fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 
-    <!---Font Awesome Stylesheet-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!---Font Awesome Stylesheet-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
 <body>
-    <div class="container">
-        <header class="twelve columns">
-            <h1>Find Your New Austin Home</h1>
-            <div>
-                <button type="button" id="show-listings" value="Show Listings">Show Listings</button>
-                <button type="button" id="hide-listings" value="Hide Listings">Hide Listings</button>
-            </div>
-        </header>
+  <div class="container">
+    <header class="twelve columns">
+      <h1>Find Your New Austin Home</h1>
+      <div>
+        <button type="button" id="show-listings" value="Show Listings">Show Listings</button>
+        <button type="button" id="hide-listings" value="Hide Listings">Hide Listings</button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Google Map Placeholder -->
+  <main class="full-height" id="map"></main>
+
+  <footer>
+    <div class="twelve columns">
+      <p>
+        Coded with <i class="fa fa-heart"></i> love by <span class="lh-brand">LaTasha Hussey</span>.
+      </p>
     </div>
+    <div class="twelve columns">
 
-    <!-- Google Map Placeholder -->
-    <main class="full-height" id="map"></main>
+      <!--GitHub-->
+      <a href="https://github.com/latashahussey" class="fa fa-github-alt fa-3x"></a>
 
-    <footer>
-        <div class="twelve columns">
-            <p>
-                Coded with <i class="fa fa-heart"></i> love by <span class="lh-brand">LaTasha Hussey</span>.
-            </p>
-        </div>
-        <div class="twelve columns">
+      <!--LinkedIn-->
+      <a href="https://www.linkedin.com/in/latashahussey" class="fa fa-linkedin fa-3x"> </a>
 
-            <!--GitHub-->
-            <a href="https://github.com/latashahussey" class="fa fa-github-alt fa-3x"></a>
+      <!--Twitter-->
+      <a href="https://twitter.com/latashahussey" class="fa fa-twitter fa-3x"></a>
+    </div>
+  </footer>
 
-            <!--LinkedIn-->
-            <a href="https://www.linkedin.com/in/latashahussey" class="fa fa-linkedin fa-3x"> </a>
+  <!-- Javascript -->
+  <script src="dist/js/app.min.js"></script>
 
-            <!--Twitter-->
-            <a href="https://twitter.com/latashahussey" class="fa fa-twitter fa-3x"></a>
-        </div>
-    </footer>
-
-    <!-- Javascript -->
-    <script src="src/js/app.js"></script>
-
-    <!-- Load map without waiting on page to load -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVLWZ3aEctkcc5yExFHufCer80KYJu5Eg&v=3&callback=initMap">
-    </script>
+  <!-- Load map without waiting on page to load -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVLWZ3aEctkcc5yExFHufCer80KYJu5Eg&v=3&callback=initMap">
+  </script>
 
 </body>
 
