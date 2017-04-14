@@ -28,7 +28,7 @@ gulp.task('minifyCSS', function() {
   gulp.src(paths.cssSrc + '*.css')
     .pipe(minifyCSS())
     .pipe(concat('style.min.css'))
-    .pipe(gulp.Dist(paths.cssDist));
+    .pipe(gulp.dest(paths.cssDist));
 });
 
 //Grab all js files then minify, merge, and move  them to Distination
@@ -36,7 +36,7 @@ gulp.task('minifyJS', function() {
   gulp.src(paths.jsSrc + '*.js')
     .pipe(minifyJS())
     .pipe(concat('app.min.js'))
-    .pipe(gulp.Dist(paths.jsDist));
+    .pipe(gulp.dest(paths.jsDist));
 });
 
 
