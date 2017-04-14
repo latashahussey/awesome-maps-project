@@ -6,27 +6,26 @@ var map;
 var markers = [];
 
 // Create a styles array to use with the map
-var styles = [
+var style = [
     {
         featureType: 'water',
         stylers: [
             {color: '#19a0d8'}
         ]
-    },
-    {
+    },{
         featureType: 'administrative',
         elementType: 'labels.text.stroke',
         stylers: [
             {color: '#ffffff'},
             {weight: 6}
         ]
-    }, {
+    },{
         featureType: 'administrative',
         elementType: 'labels.text.fill',
         stylers: [
             {color: '#e85113'}
         ]
-    }, {
+    },{
         featureType: 'road.highway',
         elementType: 'geometry.stroke',
         stylers: [
@@ -83,7 +82,7 @@ function initMap() {
         }, // location of the map to be centered
         zoom: 13,
         styles: style,
-        mapTypeControl: false
+        mapTypeControl: false // disable user ability to change map type
     });
 
     // Add several locations to our map in an array
@@ -95,8 +94,6 @@ function initMap() {
         {title: 'South Lamar', location: {lat: 30.236265, lng: -97.782422}}
     ];
 
-
-
     // To hold data in info window for marker
     var largeInfoWindow = new google.maps.InfoWindow();
 
@@ -104,7 +101,7 @@ function initMap() {
     var defaultIcon = makeMarkerIcon('0091ff');
    // Create a "highlighted location" marker color for when the user
    // mouses over the marker.
-    var highlightedIcon = makeMarkerIcon('FFFF24');
+   var highlightedIcon = makeMarkerIcon('ffff24');
 
     for (var i = 0; i < locations.length; i++){
         // Get the position and title of the location array
@@ -114,6 +111,7 @@ function initMap() {
         var marker = new google.maps.Marker({
             position: position,
             title: title,
+            icon: defaultIcon,
             animation: google.maps.Animation.DROP,
             id: i
         });
@@ -125,6 +123,15 @@ function initMap() {
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfoWindow);
         });
+        // Two event listeners - one for mouseover, one for mouseout
+        // to change the colors back and forth
+        marker.addListener('mouseover', function(){
+          this.setIcon(highlightedIcon);
+        });
+        marker.addListener('mouseout', function(){
+          this.setIcon(defaultIcon);
+        });
+
     }
 
     // When clicked, run appropriate function to show or hide listings
@@ -167,4 +174,17 @@ function hideListings() {
     for(var i = 0; markers.length; i++) {
         markers[i].setMap(null);
     }
+}
+
+// This function takes in a COLOR, and then creates a new marker icon
+// of that color.  The icon will be 21 px wide and 34 high, have an origin
+// of 0,0 and be anchored at 10,34
+function makeMarkerIcon(markerColor) {
+  var markerImage = new google.maps.MarkerImage(
+    'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor + '|40|_|%E2%80%A2',
+    new google.maps.Size(21, 34),
+    new google.maps.Point(0, 0),
+    new google.maps.Point(10, 34),
+    new google.maps.Size(21, 34));
+  return markerImage;
 }
