@@ -5,6 +5,9 @@ var map;
 // Create array for all markers
 var markers = [];
 
+// This global polygon variable is to ensure only one polygon is rendered.
+var polygon = null;
+
 // Create a styles array to use with the map
 var style = [
     {
