@@ -73,6 +73,10 @@ var style = [
       }
 ];
 
+/**
+ * initMap - This is the main function in our app that drives the entire application.
+ * It generates the map and sets the locations
+ */
 function initMap() {
     // Constructor creates a new map - only center and zoon are required.
     map = new google.maps.Map(document.getElementById('map'), { // which element to use to display map
@@ -140,22 +144,68 @@ function initMap() {
 }
 
 
-// This function populuates the infowindow when a marker is clicked
-// Only one infowindow will open at a time.
+/**
+* populateInfoWindow - This function populuates the infowindow when a marker is clicked
+* Only one infowindow will open at a time.
+* @param marker Symbol to pin point location on map.
+* @param infowindow InfoWindow to hold content related to map marker.
+*/
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened at this marker.
-    if(infowindow.marker != marker) {
+    if (infowindow.marker != marker) {
+        // Clear the infowindow to give the streetview time to load
+        infowindow.setContent('');
         infowindow.marker = marker;
-        infowindow.setContent('<div>' + marker.title + '<br>' + marker.position + '</div>');
-        infowindow.open(map, marker);
         //Make sure the marker property is closed if the infowindow is closed.
         infowindow.addListener('closeclick', function(){
-            infowindow.setMarker(null);
+            infowindow.marker = null;
         });
+
+        //Create new instance of StreetView Service
+        var streetViewService = new google.maps.StreetViewService();
+
+        // Distance in meters to search from location for StreetView image incase user-defined location
+        // does not have one available
+        var radius = 50;
+
+        /**
+         * getStreetView - This function will grab the street view image for nearby location
+         * @param data
+         * @param status  Status of API call.
+         */
+        function getStreetView(data, status) {
+            if (status == google.maps.StreetViewStatus.OK){
+                var nearStreetViewLocation = data.location.latLng;
+                // To look at specific location
+                var heading = google.maps.geometry.spherical.computeHeading(
+                    nearStreetViewLocation, marker.position);
+                    infowindow.setContent('<div>' + marker.title  + '</div><div id="pano"></div>');
+                var panoramaOptions = {
+                    position: nearStreetViewLocation,
+                    pov: { //  point of view or angle we want to look at
+                        heading: heading,
+                        pitch: 30
+                    }
+                };
+                var panorama = new google.maps.StreetViewPanorama(
+                    document.getElementById('pano'), panoramaOptions);
+            } else {
+                infowindow.setContent('<div>' + marker.title + '</div>' +
+            '<div>No Street View Found</div>');
+            }
+        }
+        // Use streetview service to get the closest streetview image within
+        // 50 meters of the markers position
+        streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+        // Open the infowindow on the correct marker
+        infowindow.open(map, marker);
     }
 }
 
-
+/**
+ * showListings - This function displays map markers at predefined locations within the boundaries of
+ * the map window
+ */
 function showListings() {
     // In case our markers move outside boundaries of original maps location
     var bounds = new google.maps.LatLngBounds();
@@ -169,6 +219,9 @@ function showListings() {
     map.fitBounds(bounds);
 }
 
+/**
+ * hideListings - This function hides all map markers
+ */
 function hideListings() {
     // hide all the markers
     for(var i = 0; markers.length; i++) {
@@ -176,9 +229,12 @@ function hideListings() {
     }
 }
 
-// This function takes in a COLOR, and then creates a new marker icon
-// of that color.  The icon will be 21 px wide and 34 high, have an origin
-// of 0,0 and be anchored at 10,34
+/**
+ * makeMarkerIcon - This function takes in a COLOR, and then creates a new marker icon
+ * of that color.  The icon will be 21 px wide and 34 high, have an origin
+ * of 0,0 and be anchored at 10,34
+ * @param markerColor  The color of the map marker.
+ */
 function makeMarkerIcon(markerColor) {
   var markerImage = new google.maps.MarkerImage(
     'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor + '|40|_|%E2%80%A2',
