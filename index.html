@@ -19,8 +19,10 @@
 </head>
 
 <body>
-    <div class="container">
-        <header class="twelve columns">
+
+    <!--- Main --->
+    <main class="container">
+        <div class="four columns">
             <h1>Find Your New Austin Home</h1>
             <div>
                 <button type="button" id="show-listings" value="Show Listings">Show Listings</button>
@@ -29,12 +31,22 @@
                 <p>Draw a shape to search within it for homes!</p>
                 <button type="button" id="toggle-drawing" value="Drawing Tools">Drawing Tools</button>
             </div>
-        </header>
-    </div>
+            <hr />
+            <div>
+                <input type="text" id="zoom-to-area-text" placeholder="Enter your favorite area!">
+                <button type="button" id="zoom-to-area" value="Zoom">Zoom</button>
+            </div>
+        </div>
 
-    <!-- Google Map Placeholder -->
-    <main class="two-thirds-height" id="map"></main>
+        <!-- Google Map Placeholder -->
+        <div class="two-thirds-height eight columns" id="map"></div>
 
+    </main>
+
+
+
+
+    <!-- Footer -->
     <footer>
         <div class="twelve columns">
             <p>
