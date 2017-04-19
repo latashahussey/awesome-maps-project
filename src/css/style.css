@@ -75,7 +75,6 @@ main {
 /*-------FOOTER---------*/
 
 footer {
-    margin-top: 2rem;
     text-align: center;
 }
 
@@ -96,6 +95,6 @@ footer .fa-heart {
 
 /*-------UTILITIES---------*/
 
-.two-thirds-height {
-    height: 66.66%;
+.nine-tenths-height {
+    height: 90%;
 }
