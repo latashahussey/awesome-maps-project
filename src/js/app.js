@@ -105,6 +105,16 @@ function initMap() {
     mapTypeControl: false // disable user ability to change map type
   });
 
+  // This autocomplete is for use in the search withing time entry box.
+  var timeAutocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('search-within-time-text'));
+  // This autocomplete is for use in the geocoder entry box.
+  var zoomAutocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('zoom-to-area-text'));
+  // Bias the boundaries within the map for the zoom to area text
+  zoomAutocomplete.bindTo('bounds', map);
+
+
   // Add several locations to our map in an array
   var locations = [{
       title: 'North Loop',
@@ -452,7 +462,7 @@ function displayMarkersWithinTime(response) {
   var maxDuration = document.getElementById('max-duration').value;
   var origins = response.originAddresses;
   var destinations = response.destinationAddresses;
-  console.log(response);
+  //console.log(response); //for debugging
   // Parse through the results, and get the distance and duration of each.
   // Because there might be  multiple origins and destinations we have a nested loop
   // Then, make sure at least 1 result was found.
@@ -478,8 +488,8 @@ function displayMarkersWithinTime(response) {
           // distance and duration
           var infowindow = new google.maps.InfoWindow({
             content: durationText + ' away, ' + distanceText +
-                '<div><button type=\"button\" value=\"View Route\" onclick=' +
-                '\"displayDirections(&quot;' + origins[i] + '&quot;) ;\">View Route</button></div>'
+              '<div><button type=\"button\" value=\"View Route\" onclick=' +
+              '\"displayDirections(&quot;' + origins[i] + '&quot;) ;\">View Route</button></div>'
           });
           infowindow.open(map, markers[i]);
           // Put this in so that this small window closes if the user clicks
@@ -502,32 +512,31 @@ function displayMarkersWithinTime(response) {
  * of the markers within the calculated distance.  This will display the route on the map.
  * @param origin Marker position.
  */
-function displayDirections(origin){
-    hideListings();
-    var directionsService = new google.maps.DirectionsService();
-    // Get the destination address from the user entered value.
-    var destinationAddress = document.getElementById('search-within-time-text').value;
-    // Get mode again from the user entered value.
-    var mode = document.getElementById('mode').value;
-    directionsService.route({
-        // The origin is the passed in marker's position
-        origin: origin,
-        // The destination is user entered address.
-        destination: destinationAddress,
-        travelMode: google.maps.TravelMode[mode]
-    }, function(response, status){
-        if (status === google.maps.DirectionsStatus.OK){
-            var directionsDisplay = new google.maps.DirectionsRenderer({
-                map: map,
-                directions: response,
-                draggble: true,
-                polylineOptions: {
-                    strokeColor: 'greeen'
-                }
-            });
-        } else {
-            window.alert('Directions request failed due to ' + status);
+function displayDirections(origin) {
+  hideListings();
+  var directionsService = new google.maps.DirectionsService();
+  // Get the destination address from the user entered value.
+  var destinationAddress = document.getElementById('search-within-time-text').value;
+  // Get mode again from the user entered value.
+  var mode = document.getElementById('mode').value;
+  directionsService.route({
+    // The origin is the passed in marker's position
+    origin: origin,
+    // The destination is user entered address.
+    destination: destinationAddress,
+    travelMode: google.maps.TravelMode[mode]
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      var directionsDisplay = new google.maps.DirectionsRenderer({
+        map: map,
+        directions: response,
+        draggble: true,
+        polylineOptions: {
+          strokeColor: 'greeen'
         }
+      });
+    } else {
+      window.alert('Directions request failed due to ' + status);
     }
-);
+  });
 }
