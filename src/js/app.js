@@ -320,8 +320,8 @@ function showListings() {
  */
 function hideListings() {
   // hide all the markers
-  for (var i = 0;i < markers.length; i++) {
-      markers[i].setMap(null);
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
   }
 }
 
@@ -411,6 +411,7 @@ function zoomToArea() {
  * and a travel mode, and a location -and only shows the listings within that travel time (via the mode)
  * of the location
  */
+
 function searchWithinTime() {
   // Initialize the distance matrix service.
   var distanceMatrixService = new google.maps.DistanceMatrixService();
@@ -445,20 +446,16 @@ function searchWithinTime() {
     });
   }
 }
-
-
-/**
- * displayMarkersWithinTime - This function will go through each of the results, and
- * if the distance is LESS than the value in the picker, show it on the map
- * @param response The server response.
- */
+// This function will go through each of the results, and,
+// if the distance is LESS than the value in the picker, show it on the map.
 function displayMarkersWithinTime(response) {
   var maxDuration = document.getElementById('max-duration').value;
-  var origins = response.originAddress;
+  var origins = response.originAddresses;
   var destinations = response.destinationAddresses;
+  console.log(response);
   // Parse through the results, and get the distance and duration of each.
-  // Because there might be multiple origins and destinations we have a nested loop
-  // Then, make sure at least 1 results was found.
+  // Because there might be  multiple origins and destinations we have a nested loop
+  // Then, make sure at least 1 result was found.
   var atLeastOne = false;
   for (var i = 0; i < origins.length; i++) {
     var results = response.rows[i].elements;
