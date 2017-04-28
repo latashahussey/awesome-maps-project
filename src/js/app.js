@@ -480,7 +480,9 @@ function displayMarkersWithinTime(response) {
           // Create a mini infowindow to open immediately and contain the
           // distance and duration
           var infowindow = new google.maps.InfoWindow({
-            content: durationText + ' away, ' + distanceText
+            content: durationText + ' away, ' + distanceText +
+                '<div><button type=\"button\" value=\"View Route\" onclick=' +
+                '\"displayDirections(&quot;' + origins[i] + '&quot;) ;\">View Route</button></div>'
           });
           infowindow.open(map, markers[i]);
           // Put this in so that this small window closes if the user clicks
@@ -496,4 +498,39 @@ function displayMarkersWithinTime(response) {
   if (!atLeastOne) {
     window.alert('We could not find any locations within that distance!');
   }
+}
+
+/**
+ * displayDirections - This function is in response to the user selecting "show route" on one
+ * of the markers within the calculated distance.  This will display the route on the map.
+ * @param origin Marker position.
+ */
+function displayDirections(origin){
+    hideListings();
+    var directionsService = new google.maps.DirectionsService();
+    // Get the destination address from the user entered value.
+    var destinationAddress = document.getElementById('search-within-time-text').value;
+    // Get mode again from the user entered value.
+    var mode = document.getElementById('mode').value;
+    directionsService.route({
+        // The origin is the passed in marker's position
+        origin: origin,
+        // The destination is user entered address.
+        destination: destinationAddress,
+        travelMode: google.maps.TravelMode[mode]
+    }, function(response, status){
+        if (status === google.maps.DirectionsStatus.OK){
+            var directionsDisplay = new google.maps.DirectionsRenderer({
+                map: map,
+                directions: response,
+                draggble: true,
+                polylineOptions: {
+                    strokeColor: 'greeen'
+                }
+            });
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    }
+);
 }
